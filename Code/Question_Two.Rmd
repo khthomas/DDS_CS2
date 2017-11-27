@@ -8,7 +8,15 @@ output: html_document
 ```{r}
 #read in data set
 library(readr)
-Procrastination <- read_csv("C:/Users/student/Desktop/Doing DS/Case_Study_2/Procrastination.csv")
+library(dplyr)
+library(stringi)
+library(rvest)
+library(xml2)
+library(selectr)
+setwd("~/SMU/DDS_CS2/Data")
+df = read.csv("Procrastination.csv")
+Procrastination = read.csv("Procrastination.csv")
+# Procrastination <- read_csv("C:/Users/student/Desktop/Doing DS/Case_Study_2/Procrastination.csv")
 
 #Print number of rows and columns
 dimPro<-dim(Procrastination)
@@ -44,9 +52,28 @@ ProColNames[13]<-"Sons"
 ProColNames[14]<-"Daughters"
 
 #all the scale questions 15-59
-for(i in 15:59)
+## Kyle -- I get an error here. I don't think this gets used. When I run grep(")", ProColNames) I get zero results.
+##        may want to consider removing this section. 
+
+#original
+# for(i in 15:59)
+# {
+# ProColNames[i]<-substr(ProColNames[i],2,which(strsplit(ProColNames[i],"")[[1]] == ")" )-1)
+# }
+
+#based on this it looks like we are trying to split the string to make column names. I propose the below:
+#IT does the following:
+# replace periods with blanks
+# replace â with blanks
+# Uses regex to find the first few letters followed by a number in the string
+# extract the rest of the string to the first 12 letters of the column name
+
+for (i in 15:59)
 {
-ProColNames[i]<-substr(ProColNames[i],2,which(strsplit(ProColNames[i],"")[[1]]==")")-1)
+  ProColNames[i] = gsub("\\.","", ProColNames[i])
+  ProColNames[i] = gsub("â","", ProColNames[i])
+  holding = stringr::str_locate_all(pattern = "[A-Z\\.]+[0-9]", ProColNames[i])
+  ProColNames[i] = substr(ProColNames[i], holding[[1]][2] + 1, 13 + holding[[1]][2])
 }
 
 #do you consider yourself.....
@@ -144,4 +171,48 @@ Procrastination$AIPMean<-round(rowMeans(Procrastination[20:34],na.rm = TRUE),1)
 Procrastination$GPMean<-round(rowMeans(Procrastination[35:54],na.rm = TRUE),1)
 Procrastination$SWLSPMean<-round(rowMeans(Procrastination[55:59],na.rm = TRUE),1)
 
+```
+
+
+# Question 3: Scrape the Human Development Index
+
+```{r q3}
+url = "https://en.wikipedia.org/wiki/List_of_countries_by_Human_Development_Index"
+
+page = read_html(url)
+
+#get the table info -- this was for testing
+# table = page %>%
+#   rvest::html_nodes(xpath = "//td//table") %>%
+#   .[1] %>%
+#   rvest::html_table(fill = TRUE)
+
+#assing them in a loop
+for(i in 1:8) {
+  assign(paste0("table", i), as.data.frame(page %>%
+  rvest::html_nodes(xpath = "//td//table") %>%
+  .[i] %>%
+  rvest::html_table(fill = TRUE)
+  )
+  )
+ 
+}
+
+colnames(table1) = c("2016_Est_Rank", "Rank_Change", "Country", "2016_Est_HDI", "HDI_Change")
+colnames(table2) = c("2016_Est_Rank", "Rank_Change", "Country", "2016_Est_HDI", "HDI_Change")
+colnames(table3) = c("2016_Est_Rank", "Rank_Change", "Country", "2016_Est_HDI", "HDI_Change")
+colnames(table4) = c("2016_Est_Rank", "Rank_Change", "Country", "2016_Est_HDI", "HDI_Change")
+colnames(table5) = c("2016_Est_Rank", "Rank_Change", "Country", "2016_Est_HDI", "HDI_Change")
+colnames(table6) = c("2016_Est_Rank", "Rank_Change", "Country", "2016_Est_HDI", "HDI_Change")
+colnames(table7) = c("2016_Est_Rank", "Rank_Change", "Country", "2016_Est_HDI", "HDI_Change")
+colnames(table8) = c("2016_Est_Rank", "Rank_Change", "Country", "2016_Est_HDI", "HDI_Change")
+
+dfHDI = rbind(table1[-1,], table2[-1,], table3[-1,], table4[-1,], table5[-1,], table6[-1,], table7[-1,], table8[-1,])
+
+dfHDI = dfHDI[,c("Country", "2016_Est_HDI")]
+
+##Make classificaiton of HDI based on score
+
+
+Procrastination = merge(Procrastination, dfHDI, by = "Country")
 ```

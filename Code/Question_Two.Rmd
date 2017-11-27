@@ -13,9 +13,24 @@ library(stringi)
 library(rvest)
 library(xml2)
 library(selectr)
-setwd("~/SMU/DDS_CS2/Data")
-df = read.csv("Procrastination.csv")
-Procrastination = read.csv("Procrastination.csv")
+
+
+#kyle 
+#I added the lines below anyone can run the RMD file without manually entering their file path into the code
+#let me know if this works for you
+#MatT can you test this out to see if it works on your machine?
+#################################################################
+My_FilePath<-getwd()
+My_FilePath<-substring(My_FilePath,1,nchar(My_FilePath)-5)
+setwd(My_FilePath)
+Data_FilePath<-paste( My_FilePath ,"/Data/Procrastination.csv", sep = "")
+##################################################################
+
+
+#setwd("~/SMU/DDS_CS2/Data")
+#df = read.csv("Procrastination.csv"))
+Procrastination = read.csv(Data_FilePath)
+#Procrastination = read.csv("Procrastination.csv")
 # Procrastination <- read_csv("C:/Users/student/Desktop/Doing DS/Case_Study_2/Procrastination.csv")
 
 #Print number of rows and columns
@@ -216,7 +231,6 @@ dfHDI$HDI_Category = ifelse(dfHDI$`2016_Est_HDI` >= 0.8, "Very High",
                                    ifelse(dfHDI$`2016_Est_HDI` >= 0.55, "Medium", "Low")))
 
 ##Make classificaiton of HDI based on score
-
 
 Procrastination = merge(Procrastination, dfHDI, by = "Country")
 

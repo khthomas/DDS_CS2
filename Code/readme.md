@@ -95,7 +95,7 @@ Uruguay | 3.66 | 3.93
 ![GP Image](https://raw.githubusercontent.com/khthomas/DDS_CS2/master/Code/dpmean.JPG)
 
 **Top 15 Countries by GP**
-![DP Image](https://raw.githubusercontent.com/khthomas/DDS_CS2/master/Code/dpmean.JPG)
+![DP Image](https://raw.githubusercontent.com/khthomas/DDS_CS2/master/Code/gpmean.JPG)
 
 
 

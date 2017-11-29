@@ -240,7 +240,7 @@ Procrastination = merge(Procrastination, dfHDI, by = "Country")
 
 ```
 
-#Question 5B and 5C
+# Question 5B and 5C
 ```{r}
 #Q5B Barchart
 countryGPmean = aggregate(GPMean ~ Country + HDI_Category, Procrastination, mean)

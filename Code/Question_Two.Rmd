@@ -355,7 +355,7 @@ ggplot(data=sortedDP, aes(x= reorder(Country, -DPMean), y = DPMean, fill = HDI_C
   geom_bar(stat = "identity") + 
   theme(axis.text.x = element_text(angle = 90)) + 
   xlab("Country") + 
-  ylab("Mean General Procrastination Score") + 
+  ylab("Mean Devisional Procrastination Score") + 
   ggtitle("Top 15 Countries by Average Decisional Procrastination Scale") + 
   scale_fill_brewer(palette = "Dark2")
 

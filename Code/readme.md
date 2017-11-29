@@ -92,10 +92,10 @@ Sri Lanka | 3.8 | 4.4
 Uruguay | 3.66 | 3.93
 
 **Top 15 Countries by DP**
-![GP Image](https://raw.githubusercontent.com/khthomas/DDS_CS2/Code/dpmean.JPG)
+![GP Image](https://raw.githubusercontent.com/khthomas/DDS_CS2/master/Code/dpmean.JPG)
 
 **Top 15 Countries by GP**
-![DP Image](https://raw.githubusercontent.com/khthomas/DDS_CS2/Code/dpmean.jpg)
+![DP Image](https://raw.githubusercontent.com/khthomas/DDS_CS2/master/Code/dpmean.JPG)
 
 
 

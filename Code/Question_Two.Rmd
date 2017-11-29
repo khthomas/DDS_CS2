@@ -13,14 +13,11 @@ library(stringi)
 library(rvest)
 library(xml2)
 library(selectr)
-<<<<<<< HEAD
 library(ggplot2)
 library(sqldf)
 setwd("~/SMU/DDS_CS2/Data")
 df = read.csv("Procrastination.csv")
 Procrastination = read.csv("Procrastination.csv")
-=======
-
 
 #kyle 
 #I added the lines below anyone can run the RMD file without manually entering their file path into the code
@@ -38,7 +35,6 @@ Data_FilePath<-paste( My_FilePath ,"/Data/Procrastination.csv", sep = "")
 #df = read.csv("Procrastination.csv"))
 Procrastination = read.csv(Data_FilePath)
 #Procrastination = read.csv("Procrastination.csv")
->>>>>>> 57edf4f06d44999298bb787be571fcbed582e792
 # Procrastination <- read_csv("C:/Users/student/Desktop/Doing DS/Case_Study_2/Procrastination.csv")
 
 #Print number of rows and columns
@@ -242,7 +238,10 @@ dfHDI$HDI_Category = ifelse(dfHDI$`2016_Est_HDI` >= 0.8, "Very High",
 
 Procrastination = merge(Procrastination, dfHDI, by = "Country")
 
+```
 
+#Question 5B and 5C
+```{r}
 #Q5B Barchart
 countryGPmean = aggregate(GPMean ~ Country + HDI_Category, Procrastination, mean)
 sortedGP = countryGPmean[order(countryGPmean$GPMean, decreasing = TRUE),][1:15,]

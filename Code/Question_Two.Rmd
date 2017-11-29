@@ -220,4 +220,37 @@ dfHDI$HDI_Category = ifelse(dfHDI$`2016_Est_HDI` >= 0.8, "Very High",
 
 Procrastination = merge(Procrastination, dfHDI, by = "Country")
 
+
+#Q5B Barchart
+countryGPmean = aggregate(GPMean ~ Country + HDI_Category, Procrastination, mean)
+sortedGP = countryGPmean[order(countryGPmean$GPMean, decreasing = TRUE),][1:15,]
+
+
+ggplot(data=sortedGP, aes(x= reorder(Country, -GPMean), y = GPMean, fill = HDI_Category)) + 
+  geom_bar(stat = "identity") + 
+  theme(axis.text.x = element_text(angle = 90)) + 
+  xlab("Country") + 
+  ylab("Mean General Procrastination Score") + 
+  ggtitle("Top 15 Countries by Average General Procrastination Scale") + 
+  scale_fill_brewer(palette = "Dark2")
+
+
+#Q5C Barchart
+countryGPmean = aggregate(DPMean ~ Country + HDI_Category, Procrastination, mean)
+sortedDP = countryGPmean[order(countryGPmean$DPMean, decreasing = TRUE),][1:15,]
+
+ggplot(data=sortedDP, aes(x= reorder(Country, -DPMean), y = DPMean, fill = HDI_Category)) + 
+  geom_bar(stat = "identity") + 
+  theme(axis.text.x = element_text(angle = 90)) + 
+  xlab("Country") + 
+  ylab("Mean General Procrastination Score") + 
+  ggtitle("Top 15 Countries by Average Decisional Procrastination Scale") + 
+  scale_fill_brewer(palette = "Dark2")
+
+#Which countries are in both charts
+
+inBoth = sqldf('SELECT Country FROM sortedDP INTERSECT SELECT Country from sortedGP')
+paste0("There are ", count(inBoth), " countries that show up in the top 15 countries for GP and DP Score. They are:")
+inBoth
+
 ```

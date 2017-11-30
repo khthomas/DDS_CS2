@@ -6,6 +6,8 @@ output: html_document
 ---
 
 ```{r}
+
+
 #read in data set
 library(readr)
 library(dplyr)
@@ -50,6 +52,9 @@ ProColNames<-names(Procrastination)
 #remove spaces from names
 ProColNames<-gsub(" ","",ProColNames[1:length(ProColNames)],fixed = TRUE)
 
+#Age of Participant 
+ProColNames[1]<-"Age"
+
 #Current Occupation-->Occupation
 ProColNames[7]<-"Occupation"
 
@@ -71,6 +76,10 @@ ProColNames[12]<-"MaritalStat"
 #number of sons/daughters
 ProColNames[13]<-"Sons"
 ProColNames[14]<-"Daughters"
+
+
+
+
 
 #all the scale questions 15-59
 ## Kyle -- I get an error here. I don't think this gets used. When I run grep(")", ProColNames) I get zero results.
@@ -252,7 +261,7 @@ Procrastination = merge(Procrastination, dfHDI, by = "Country")
 ```{r}
 
 ##Removes all individuals under the age of 18 due to legality of none consenting adult. 
-Procrastination <- Procrastination[which(Procrastination$ï..Age > 18),]
+Procrastination <- Procrastination[which(Procrastination$Age > 18),]
 ```
 
 ###b
@@ -270,7 +279,7 @@ Range.var<-Max.var-Min.var
 #Puts together objects into one DF and prits with rounding
 Report<-data.frame(Min.var,Med.var,Max.var,Mean.var,SD.var,Range.var)
 names(Report)<-c("Min","Median","Max","Mean","Standard Deviation","Range")
-print(Report, didgets=2)
+print(Report)
 }
 ```
 
@@ -280,24 +289,36 @@ print(Report, didgets=2)
 ```{r}
 
 #Labels the variables that will be in the descriptive statistics tables 
-Descriptive_Table<-c("Annual.Income","ï..Age","2016_Est_HDI","DPMean","GPMean",
+Descriptive_Table<-c("Annual.Income","Age","2016_Est_HDI","DPMean","GPMean",
 "AIPMean","SWLSPMean")
 
-#Passes "Annual.Income","ï..Age","2016_Est_HDI","DPMean","GPMean",
+#Passes "Annual.Income","Age","2016_Est_HDI","DPMean","GPMean",
 #"AIPMean","SWLSPMean" variables through the descriptive report function and binds them together into one data frame
 
-Descriptive_Table<-cbind(Descriptive_Table,rbind(Descriptive_report(Procrastination$Annual.Income),Descriptive_report(Procrastination$ï..Age),Descriptive_report(Procrastination$`2016_Est_HDI`),Descriptive_report(Procrastination$DPMean),Descriptive_report(Procrastination$GPMean),Descriptive_report(Procrastination$AIPMean),Descriptive_report(Procrastination$SWLSPMean)))
+Descriptive_Table<-cbind(Descriptive_Table,rbind(
+  Descriptive_report(Procrastination$Annual.Income),
+  Descriptive_report(Procrastination$Age),
+  Descriptive_report(Procrastination$`2016_Est_HDI`),
+  Descriptive_report(Procrastination$DPMean),
+  Descriptive_report(Procrastination$GPMean),
+  Descriptive_report(Procrastination$AIPMean),
+  Descriptive_report(Procrastination$SWLSPMean)))
 
-View(Descriptive_Table)
+
+kable(Descriptive_Table,format='html',output=F) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+
+
 
 ```
+
 
 
 Add comment about shapes
 
 ```{r}
 
-hist(Procrastination$ï..Age, 
+hist(Procrastination$Age, 
      main="Histogram of Age",
      xlab= "Age")
 hist(Procrastination$GPMean, 
@@ -312,19 +333,49 @@ frequency_Table <-data.frame(count(Procrastination,Procrastination$Gender))
 names(frequency_Table)<- c("Gender","Count by Gender")
 frequency_Table[,1]<-as.character(frequency_Table[,1])
 frequency_Table[which(frequency_Table$Gender==""),1] <- "Not Reported"
-print(frequency_Table)
+kable(frequency_Table,format='html',output=F)  %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+
 
 frequency_Table <-data.frame(count(Procrastination,Procrastination$Work.Status))
 names(frequency_Table)<- c("Work Status","Count by Work Stauts")
 frequency_Table[,1]<-as.character(frequency_Table[,1])
 frequency_Table[which(frequency_Table$`Work Status` ==""),1] <- "Not Reported"
-print(frequency_Table)
+kable(frequency_Table,format='html',output=F)  %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
  
 frequency_Table <-data.frame(count(Procrastination,Procrastination$Occupation))
 names(frequency_Table)<- c("Occupation","Count by Occupation")
 frequency_Table[,1]<-as.character(frequency_Table[,1])
 frequency_Table[which(frequency_Table$Occupation ==""),1] <- "Not Reported"
-print(frequency_Table)
+kable(frequency_Table,format='html',output=F)  %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+
+
+frequency_Table <-data.frame(count(Procrastination,Procrastination$Country))
+names(frequency_Table)<- c("Country","Count of Participants by Country")
+frequency_Table[,1]<-as.character(frequency_Table[,1])
+frequency_Table[which(frequency_Table$Country ==""),1] <- "Not Reported"
+frequency_Table<-arrange(frequency_Table,desc(frequency_Table$`Count of Participants by Country`))
+kable(frequency_Table,format='html',output=F)  %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+
+
+frequency_Table <-data.frame(count(Procrastination[which(
+  (Procrastination$YouConsider=="yes" & Procrastination$OtheConsider=="yes")),]))
+
+frequency_Table <-rbind(frequency_Table,data.frame(count(Procrastination[which(
+  (Procrastination$YouConsider=="no" & Procrastination$OtheConsider=="no")),])))
+
+
+frequency_Table<-cbind(c("Participant _and_others_view_as_Procrastinator","Participant _and_others_do_not_view_as_Procrastinator"),frequency_Table)
+
+names(frequency_Table)<-c("View on Procrastination","Count of Participants")
+
+kable(frequency_Table,format='html',output=F) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+
+
 ```
 
 

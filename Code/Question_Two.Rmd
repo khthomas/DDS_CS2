@@ -255,16 +255,18 @@ Procrastination = merge(Procrastination, dfHDI, by = "Country")
 
 ```
 
-# Question 4
 
-###a
+
 ```{r}
 
 ##Removes all individuals under the age of 18 due to legality of none consenting adult. 
 Procrastination <- Procrastination[which(Procrastination$Age > 18),]
 ```
 
-###b
+# Descriptive statistics 
+Below is some descriptive statistics of the data. The descriptive statistics describe the basic features of the data. 
+
+
 ```{r}
 #This function calculates the descriptive statics and puts it into a table 
 Descriptive_report<-function(variable){
@@ -286,6 +288,7 @@ print(Report)
 
 
 ###Summary Statistics table
+Participants that did not report where excluded from the descriptive statistics calculation.
 ```{r}
 
 #Labels the variables that will be in the descriptive statistics tables 
@@ -314,7 +317,10 @@ kable(Descriptive_Table,format='html',output=F) %>%
 
 
 
-Add comment about shapes
+The histogram of age for participants shows that age is not a normal distribution. Age is skewed to the right. 	
+
+The histogram of Generalized Procrastination (GP) looks to be normally distributed. GP is mean of 5 different questions on the decision procrastination scale. This may make the distribution more bell shaped.
+
 
 ```{r}
 
@@ -327,40 +333,57 @@ hist(Procrastination$GPMean,
 
 ```
 
-```{r}
+###Frequency tables 
 
+```{r}
 frequency_Table <-data.frame(count(Procrastination,Procrastination$Gender))
 names(frequency_Table)<- c("Gender","Count by Gender")
 frequency_Table[,1]<-as.character(frequency_Table[,1])
 frequency_Table[which(frequency_Table$Gender==""),1] <- "Not Reported"
 kable(frequency_Table,format='html',output=F)  %>%
   kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+```
 
 
+```{r}
 frequency_Table <-data.frame(count(Procrastination,Procrastination$Work.Status))
 names(frequency_Table)<- c("Work Status","Count by Work Stauts")
 frequency_Table[,1]<-as.character(frequency_Table[,1])
 frequency_Table[which(frequency_Table$`Work Status` ==""),1] <- "Not Reported"
 kable(frequency_Table,format='html',output=F)  %>%
   kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
- 
+```
+Top 10
+
+```{r} 
 frequency_Table <-data.frame(count(Procrastination,Procrastination$Occupation))
 names(frequency_Table)<- c("Occupation","Count by Occupation")
 frequency_Table[,1]<-as.character(frequency_Table[,1])
-frequency_Table[which(frequency_Table$Occupation ==""),1] <- "Not Reported"
-kable(frequency_Table,format='html',output=F)  %>%
+frequency_Table[which(frequency_Table$Occupation ==""),1] <- "Not Reported"# Blanks are considered not reported
+
+#Merges the NA's with the Not reported and drops the NA row. 
+frequency_Table[which(frequency_Table$Occupation =="Not Reported"),2] <- frequency_Table[which(is.na( frequency_Table$Occupation)),2]+frequency_Table[which(frequency_Table$Occupation =="Not Reported"),2]
+frequency_Table <- frequency_Table[which( !is.na( frequency_Table$Occupation)),]
+
+
+frequency_Table<-arrange(frequency_Table,desc(frequency_Table$`Count by Occupation`))
+kable(head(frequency_Table,10),format='html',output=F)  %>%
   kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+```
+Top 10
 
-
+```{r}
 frequency_Table <-data.frame(count(Procrastination,Procrastination$Country))
 names(frequency_Table)<- c("Country","Count of Participants by Country")
 frequency_Table[,1]<-as.character(frequency_Table[,1])
 frequency_Table[which(frequency_Table$Country ==""),1] <- "Not Reported"
 frequency_Table<-arrange(frequency_Table,desc(frequency_Table$`Count of Participants by Country`))
-kable(frequency_Table,format='html',output=F)  %>%
+kable(head(frequency_Table,10),format='html',output=F)  %>%
   kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+```
 
 
+```{r}
 frequency_Table <-data.frame(count(Procrastination[which(
   (Procrastination$YouConsider=="yes" & Procrastination$OtheConsider=="yes")),]))
 

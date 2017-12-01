@@ -367,6 +367,12 @@ frequency_Table <- frequency_Table[which( !is.na( frequency_Table$Occupation)),]
 
 
 frequency_Table<-arrange(frequency_Table,desc(frequency_Table$`Count by Occupation`))
+
+
+#Outputs the full occupation list into the data folder 
+write.csv(frequency_Table, file = paste(My_FilePath,"/Data/count_by_Occupation_list.csv",sep = ""),row.names=FALSE)
+
+#outputs the top 10
 kable(head(frequency_Table,10),format='html',output=F)  %>%
   kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
 ```
@@ -378,6 +384,11 @@ names(frequency_Table)<- c("Country","Count of Participants by Country")
 frequency_Table[,1]<-as.character(frequency_Table[,1])
 frequency_Table[which(frequency_Table$Country ==""),1] <- "Not Reported"
 frequency_Table<-arrange(frequency_Table,desc(frequency_Table$`Count of Participants by Country`))
+
+#Outputs the full occupation list into the data folder 
+write.csv(frequency_Table, file = paste(My_FilePath,"/Data/count_by_Country_list.csv",sep = ""),row.names=FALSE)
+
+#outputs the top 10
 kable(head(frequency_Table,10),format='html',output=F)  %>%
   kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
 ```

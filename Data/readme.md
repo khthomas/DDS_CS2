@@ -5,7 +5,7 @@ In additon, several data sets were created as a result of this analysis and are 
 
 ## Description of Data Sets
 **Procrastination.csv** - This data set contains the raw data set from the study done by Qualtrics. This data set needed
-some cleaning and processing. This process is well document in the RMarkdown (.rmd file) provided in the __"Code"__ repository.
+some cleaning and processing. This process is well document in the RMarkdown (.rmd file) provided in the _"Code"_ repository.
 
 
 **Count_by_Country_list.csv** - This data set contains something. Put a description of it here.
@@ -14,7 +14,7 @@ some cleaning and processing. This process is well document in the RMarkdown (.r
 
 If there are any questions about this data set please reach out to one of our analyists:
 
-**Matt Rega** - mrega@smu.edu
-**Steven Hayden** - skhayden@smu.edu
-**Kyle Thomas** - khthomas@smu.edu
+* **Matt Rega** - mrega@smu.edu
+* **Steven Hayden** - skhayden@smu.edu
+* **Kyle Thomas** - khthomas@smu.edu
 

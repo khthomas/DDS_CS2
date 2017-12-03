@@ -206,7 +206,12 @@ Procrastination$SWLSPMean<-round(rowMeans(Procrastination[55:59],na.rm = TRUE),1
 ```
 
 
-# Question 3: Scrape the Human Development Index
+# Question 3: Scrape the Human Development Index (I have added some context to the question to make is seem more like a client request)
+Waterfront Data Corp (WDC) is a multinational corporation with offices in countries that are in various stages of development. Knowing this, WDC has asked that the procrastination study take into consideration how developed each country is in which there is an office. 
+
+In order to facilitate this request, we have chosen to bring in Human Development Index (HDI) information for each country. The HDI is used to determine how developed a country is beyond simple economic growth and Gross Domestic Product parameters. Basically, the HDI can be thought of as "a summary measure of average achievement in key dimensions of human development". As such, we believe that HDI data may provide some very interesting insight on procrastination rates on a country by country basis. 
+
+2016 HDI data was gathered from the Human Development Report of the same year. Once the HDI ranking for each country was collected, this data was then merged with the procrastination data set. Then, all people under the age of 18 were removed from the data set at the request of WDC.
 
 ```{r q3}
 url = "https://en.wikipedia.org/wiki/List_of_countries_by_Human_Development_Index"
@@ -460,11 +465,9 @@ shinyApp(ui=ui, server=server)
 ```
 
 
-
-
-
-
 # Question 5B and 5C
+
+WDC wanted to know which countries had the highest average General Procrastination and Decisional Procrastination score. The best way to show this data is with some bar charts. Below, there are two bar charts that depict this information. Scores are sorted form highest to lowest and the color of each bar is indicative of the HDI score of the respective country. Of the top 15 countries in each category, 9 of them appeared in both charts. The countries that appear in both charts are listed below.
 ```{r}
 #Q5B Barchart
 countryGPmean = aggregate(GPMean ~ Country + HDI_Category, Procrastination, mean)

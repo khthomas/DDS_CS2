@@ -3,6 +3,7 @@ title: "Case_Study_Two"
 author: "Matt Rega"
 date: "November 26, 2017"
 output: html_document
+runtime: shiny
 ---
 
 ```{r}
@@ -19,6 +20,7 @@ library(ggplot2)
 library(sqldf)
 library(knitr)
 library(kableExtra)
+library(shiny)
 #setwd("~/SMU/DDS_CS2/Data")
 #df = read.csv("Procrastination.csv")
 #Procrastination = read.csv("Procrastination.csv")
@@ -281,7 +283,7 @@ Range.var<-Max.var-Min.var
 #Puts together objects into one DF and prits with rounding
 Report<-data.frame(Min.var,Med.var,Max.var,Mean.var,SD.var,Range.var)
 names(Report)<-c("Min","Median","Max","Mean","Standard Deviation","Range")
-print(Report)
+Report
 }
 ```
 
@@ -298,18 +300,15 @@ Descriptive_Table<-c("Annual.Income","Age","2016_Est_HDI","DPMean","GPMean",
 #Passes "Annual.Income","Age","2016_Est_HDI","DPMean","GPMean",
 #"AIPMean","SWLSPMean" variables through the descriptive report function and binds them together into one data frame
 
-Descriptive_Table<-cbind(Descriptive_Table,rbind(
+Descriptive_Table<-{cbind(Descriptive_Table,rbind(
   Descriptive_report(Procrastination$Annual.Income),
   Descriptive_report(Procrastination$Age),
   Descriptive_report(Procrastination$`2016_Est_HDI`),
   Descriptive_report(Procrastination$DPMean),
   Descriptive_report(Procrastination$GPMean),
   Descriptive_report(Procrastination$AIPMean),
-  Descriptive_report(Procrastination$SWLSPMean)))
+  Descriptive_report(Procrastination$SWLSPMean)))}
 
-
-kable(Descriptive_Table,format='html',output=F) %>%
-  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
 
 
 
@@ -335,27 +334,40 @@ hist(Procrastination$GPMean,
 
 ###Frequency tables 
 
-```{r}
+
+
+```{r} 
+
+
+####################
+#This code block counts the frequency by country, occupation, gender, and work status 
+#that appear in the data set. The count is then put into four separate tables that will 
+#be used in the shiny app (next code block)
+####################
+
+
+##################### Gender Table ##################################
+
 frequency_Table <-data.frame(count(Procrastination,Procrastination$Gender))
 names(frequency_Table)<- c("Gender","Count by Gender")
 frequency_Table[,1]<-as.character(frequency_Table[,1])
 frequency_Table[which(frequency_Table$Gender==""),1] <- "Not Reported"
-kable(frequency_Table,format='html',output=F)  %>%
-  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
-```
+GenderTable<-frequency_Table
 
 
-```{r}
+###################### Work Status Table ##############################
+
 frequency_Table <-data.frame(count(Procrastination,Procrastination$Work.Status))
 names(frequency_Table)<- c("Work Status","Count by Work Stauts")
 frequency_Table[,1]<-as.character(frequency_Table[,1])
 frequency_Table[which(frequency_Table$`Work Status` ==""),1] <- "Not Reported"
-kable(frequency_Table,format='html',output=F)  %>%
-  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
-```
-Top 10
+WorkStatusTable<-frequency_Table
 
-```{r} 
+
+
+
+####################### Occupation Table ############################
+
 frequency_Table <-data.frame(count(Procrastination,Procrastination$Occupation))
 names(frequency_Table)<- c("Occupation","Count by Occupation")
 frequency_Table[,1]<-as.character(frequency_Table[,1])
@@ -365,36 +377,30 @@ frequency_Table[which(frequency_Table$Occupation ==""),1] <- "Not Reported"# Bla
 frequency_Table[which(frequency_Table$Occupation =="Not Reported"),2] <- frequency_Table[which(is.na( frequency_Table$Occupation)),2]+frequency_Table[which(frequency_Table$Occupation =="Not Reported"),2]
 frequency_Table <- frequency_Table[which( !is.na( frequency_Table$Occupation)),]
 
-
-frequency_Table<-arrange(frequency_Table,desc(frequency_Table$`Count by Occupation`))
+#Arrange Frequency table in descending order and puts it into the Occupation table to be used in the shiny app
+Occupation_Table<-arrange(frequency_Table,desc(frequency_Table$`Count by Occupation`))
 
 
 #Outputs the full occupation list into the data folder 
-write.csv(frequency_Table, file = paste(My_FilePath,"/Data/count_by_Occupation_list.csv",sep = ""),row.names=FALSE)
+write.csv(Occupation_Table, file = paste(My_FilePath,"/Data/count_by_Occupation_list.csv",sep = ""),row.names=FALSE)
 
-#outputs the top 10
-kable(head(frequency_Table,10),format='html',output=F)  %>%
-  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
-```
-Top 10
 
-```{r}
+################################ Country table #####################################
+
 frequency_Table <-data.frame(count(Procrastination,Procrastination$Country))
 names(frequency_Table)<- c("Country","Count of Participants by Country")
 frequency_Table[,1]<-as.character(frequency_Table[,1])
 frequency_Table[which(frequency_Table$Country ==""),1] <- "Not Reported"
-frequency_Table<-arrange(frequency_Table,desc(frequency_Table$`Count of Participants by Country`))
+
+
+CountryTable<-arrange(frequency_Table,desc(frequency_Table$`Count of Participants by Country`))
 
 #Outputs the full occupation list into the data folder 
-write.csv(frequency_Table, file = paste(My_FilePath,"/Data/count_by_Country_list.csv",sep = ""),row.names=FALSE)
-
-#outputs the top 10
-kable(head(frequency_Table,10),format='html',output=F)  %>%
-  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
-```
+write.csv(CountryTable, file = paste(My_FilePath,"/Data/count_by_Country_list.csv",sep = ""),row.names=FALSE)
 
 
-```{r}
+################################# Participant's view Table ##########################
+
 frequency_Table <-data.frame(count(Procrastination[which(
   (Procrastination$YouConsider=="yes" & Procrastination$OtheConsider=="yes")),]))
 
@@ -406,11 +412,53 @@ frequency_Table<-cbind(c("Participant _and_others_view_as_Procrastinator","Parti
 
 names(frequency_Table)<-c("View on Procrastination","Count of Participants")
 
-kable(frequency_Table,format='html',output=F) %>%
-  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+ParticipantTable<- frequency_Table
+
+```
+Top 10
+
+```{r}
+
+############################## Shiny App ####################################
+
+#setsup the shiny app envirment 
+ui<- fluidPage(
+  sliderInput(inputId = "num",label = "Choose number of observations",max = 10,min = 0,
+              value = 10),
+  radioButtons(inputId = "radTable", label = "Select table to display",
+               c("descriptive statistics","Occupation","Country","Work Status","Gender", 
+                 "Participant's views on Procrastination"), 
+               selected = "descriptive statistics"),
+  
+  tableOutput("ShinyTable")
+
+  )
+
+#Function that will manipulate the table based on the input from the slider bar   
+server<-function(input,output,session){
+  output$ShinyTable<- renderTable({
+    radTable<-switch(input$radTable,
+                     Occupation = Occupation_Table,
+                     Country = CountryTable,
+                     Gender = GenderTable,
+                     'Work Status' = WorkStatusTable,
+                     "Participant's views on Procrastination" = ParticipantTable,
+                     'descriptive statistics' = Descriptive_Table)
+    
+    updateSliderInput(session,"num",max = length(radTable[,1]))
+    
+    head(radTable,input$num)
+    
+  })
+  
+}
+#Designated sever to run on 
+shinyApp(ui=ui, server=server)
+
 
 
 ```
+
 
 
 

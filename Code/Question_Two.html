@@ -1505,6 +1505,40 @@ frequency_Table &lt;- frequency_Table[which( !is.na( frequency_Table$Occupation)
 
 
 frequency_Table&lt;-arrange(frequency_Table,desc(frequency_Table$`Count by Occupation`))
+
+
+#Outputs the full occupation list into the data folder 
+write.csv(frequency_Table, file = paste(My_FilePath,&quot;/Data/count_by_Occupation_list.csv&quot;,sep = &quot;&quot;),row.names=FALSE)
+
+
+
+
+library(shiny)
+
+ui&lt;- fluidPage(
+  sliderInput(inputId = &quot;num&quot;,label = &quot;Choose number of observations&quot;,min = 0,max = length(frequency_Table$Country),value = 10,
+              step = 10),
+  tableOutput(&quot;ShinyTable&quot;)
+  
+  
+  
+  )
+
+
+
+server&lt;-function(input,output){
+  output$ShinyTable&lt;- renderTable({
+    head(frequency_Table,input$num)
+    
+  })
+  
+}
+
+
+
+shinyApp(ui=ui, server=server)</code></pre>
+<div style="width: 100% ; height: 400px ; text-align: center; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box;" class="muted well">Shiny applications not supported in static R Markdown documents</div>
+<pre class="r"><code>#outputs the top 10
 kable(head(frequency_Table,10),format='html',output=F)  %&gt;%
   kable_styling(bootstrap_options = &quot;striped&quot;, full_width = F, position = &quot;left&quot;)</code></pre>
 <table class="table table-striped" style="width: auto !important; ">
@@ -1607,6 +1641,11 @@ names(frequency_Table)&lt;- c(&quot;Country&quot;,&quot;Count of Participants by
 frequency_Table[,1]&lt;-as.character(frequency_Table[,1])
 frequency_Table[which(frequency_Table$Country ==&quot;&quot;),1] &lt;- &quot;Not Reported&quot;
 frequency_Table&lt;-arrange(frequency_Table,desc(frequency_Table$`Count of Participants by Country`))
+
+#Outputs the full occupation list into the data folder 
+write.csv(frequency_Table, file = paste(My_FilePath,&quot;/Data/count_by_Country_list.csv&quot;,sep = &quot;&quot;),row.names=FALSE)
+
+#outputs the top 10
 kable(head(frequency_Table,10),format='html',output=F)  %&gt;%
   kable_styling(bootstrap_options = &quot;striped&quot;, full_width = F, position = &quot;left&quot;)</code></pre>
 <table class="table table-striped" style="width: auto !important; ">

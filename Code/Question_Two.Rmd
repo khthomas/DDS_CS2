@@ -473,7 +473,7 @@ shinyApp(ui=ui, server=server)
 
 WDC wanted to know which countries had the highest average General Procrastination and Decisional Procrastination score. The best way to show this data is with some bar charts. Below, there are two bar charts that depict this information. Scores are sorted form highest to lowest and the color of each bar is indicative of the HDI score of the respective country. Of the top 15 countries in each category, 9 of them appeared in both charts. The countries that appear in both charts are listed below.
 
-To provide more context for WDC, world maps were plotted and the HDI, Mean General Procrastination Score, and Mean Decisional Procrastination Score. All other countries are shown as grey.
+To provide more context for WDC, world maps were plotted and the HDI, Mean General Procrastination Score, and Mean Decisional Procrastination Score. All other countries are shown as grey. Finally, we have also plotted on the world map where the top 15 most procrastinating countries are located. What is interesting about this view is that there appears to be a clusering effect in Europe and the Middle East.
 ```{r}
 #Q5B Barchart
 countryGPmean = aggregate(GPMean ~ Country + HDI_Category, Procrastination, mean)
@@ -507,19 +507,30 @@ inBoth = sqldf('SELECT Country FROM sortedDP INTERSECT SELECT Country from sorte
 paste0("There are ", count(inBoth), " countries that show up in the top 15 countries for GP and DP Score. They are:")
 inBoth
 
-
+############################# World Mapping ###########################
 ######## Glocal HDI Chart ########
 mapped_procrast = joinCountryData2Map(Procrastination, joinCode = "NAME", nameJoinColumn = "Country")
 par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
 mapCountryData(mapped_procrast, nameColumnToPlot = "HDI_Category", colourPalette = "rainbow", mapRegion = "world", numCats = 5, catMethod = "categorical", mapTitle = "HDI by Country where WDC has an Office", missingCountryCol = "grey")
 
-#### Mean GP Procrastination Scores####
+#### Mean GP Procrastination Scores for All Countries####
 mapped_gp = joinCountryData2Map(countryGPmean, joinCode = "NAME", nameJoinColumn = "Country")
 par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
 mapCountryData(mapped_gp, nameColumnToPlot = "GPMean", colourPalette = "heat", mapRegion = "world", mapTitle = "Mean GP Score by Country where WDC has an Office", missingCountryCol = "grey")
 
-#### Mean DP Procrastination Scores####
+#### Mean DP Procrastination Scores for All Countries####
 mapped_dp = joinCountryData2Map(countryDPmean, joinCode = "NAME", nameJoinColumn = "Country")
 par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
 mapCountryData(mapped_dp, nameColumnToPlot = "DPMean", colourPalette = "heat", mapRegion = "world", mapTitle = "Mean DP Score by Country where WDC has an Office", missingCountryCol = "grey")
+
+### Top 15 GP Sore by Country ###
+gp15 = joinCountryData2Map(sortedGP, joinCode = "NAME", nameJoinColumn = "Country")
+par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
+mapCountryData(gp15, nameColumnToPlot = "GPMean", colourPalette = "heat", mapRegion = "world", mapTitle = "Top 15 Countries with Highest Mean GP Score", missingCountryCol = "grey")
+
+### Top 15 DP by Country ###
+dp15 = joinCountryData2Map(sortedDP, joinCode = "NAME", nameJoinColumn = "Country")
+par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
+mapCountryData(dp15, nameColumnToPlot = "DPMean", colourPalette = "heat", mapRegion = "world", mapTitle = "Top 15 Countries with Highest DP Score", missingCountryCol = "grey")
+
 ```

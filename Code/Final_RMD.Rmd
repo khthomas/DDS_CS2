@@ -259,23 +259,30 @@ dfHDI$HDI_Category = ifelse(dfHDI$`2016_Est_HDI` >= 0.8, "Very High",
 ##Converts HDI column into numeric for later calculations. 
 dfHDI$`2016_Est_HDI`<-as.numeric(dfHDI$`2016_Est_HDI`)
 
+
+#Output HDI table in CSV format into the data directory. 
+write.csv(dfHDI, file = paste(My_FilePath,"/Data/HDI_Table.csv",sep = ""),row.names=FALSE)
+
+
 ##Make classificaiton of HDI based on score
-
-
 Procrastination = merge(Procrastination, dfHDI, by = "Country")
+
+
+
+#Output HDI table in CSV format into the data directory. 
+write.csv(Procrastination, file = paste(My_FilePath,"/Data/Clean_Procrastination_Table.csv",sep = ""),row.names=FALSE)
 
 ```
 
 
 
 ```{r}
-
 ##Removes all individuals under the age of 18 due to legality of none consenting adult. 
 Procrastination <- Procrastination[which(Procrastination$Age > 18),]
 ```
 
 # Descriptive statistics 
-Below is some descriptive statistics of the data. The descriptive statistics describe the basic features of the data. 
+Below is the descriptive statistics of the data. The descriptive statistics describe the basic features of the data. 
 
 
 ```{r}
@@ -298,9 +305,10 @@ Report
 
 
 
-###Summary Statistics table
-Participants that did not report where excluded from the descriptive statistics calculation.
+
 ```{r}
+#This code block passes variables of inters into descriptive  report 
+#function to create descriptive statics data frame
 
 #Labels the variables that will be in the descriptive statistics tables 
 Descriptive_Table<-c("Annual.Income","Age","2016_Est_HDI","DPMean","GPMean",
@@ -317,10 +325,6 @@ Descriptive_Table<-{cbind(Descriptive_Table,rbind(
   Descriptive_report(Procrastination$GPMean),
   Descriptive_report(Procrastination$AIPMean),
   Descriptive_report(Procrastination$SWLSPMean)))}
-
-
-
-
 ```
 
 
@@ -341,8 +345,9 @@ hist(Procrastination$GPMean,
 
 ```
 
-###Frequency tables 
 
+###Summary Statistics table and Frequency tables 
+Participants that did not report where excluded from the descriptive statistics calculation.
 
 
 ```{r} 
@@ -424,7 +429,7 @@ names(frequency_Table)<-c("View on Procrastination","Count of Participants")
 ParticipantTable<- frequency_Table
 
 ```
-Top 10
+
 
 ```{r}
 
@@ -435,9 +440,9 @@ ui<- fluidPage(
   sliderInput(inputId = "num",label = "Choose number of observations",max = 10,min = 0,
               value = 10),
   radioButtons(inputId = "radTable", label = "Select table to display",
-               c("descriptive statistics","Occupation","Country","Work Status","Gender", 
+               c("Descriptive statistics","Occupation","Country","Work Status","Gender", 
                  "Participant's views on Procrastination"), 
-               selected = "descriptive statistics"),
+               selected = "Descriptive statistics"),
   
   tableOutput("ShinyTable")
 
@@ -452,7 +457,7 @@ server<-function(input,output,session){
                      Gender = GenderTable,
                      'Work Status' = WorkStatusTable,
                      "Participant's views on Procrastination" = ParticipantTable,
-                     'descriptive statistics' = Descriptive_Table)
+                     'Descriptive statistics' = Descriptive_Table)
     
     updateSliderInput(session,"num",max = length(radTable[,1]))
     
@@ -476,9 +481,13 @@ WDC wanted to know which countries had the highest average General Procrastinati
 To provide more context for WDC, world maps were plotted and the HDI, Mean General Procrastination Score, and Mean Decisional Procrastination Score. All other countries are shown as grey. Finally, we have also plotted on the world map where the top 15 most procrastinating countries are located. What is interesting about this view is that there appears to be a clusering effect in Europe and the Middle East.
 ```{r}
 #Q5B Barchart
-countryGPmean = aggregate(GPMean ~ Country + HDI_Category, Procrastination, mean)
+
+countryGPmean = aggregate(GPMean ~ Country + HDI_Category + `2016_Est_HDI`, Procrastination, mean)
 sortedGP = countryGPmean[order(countryGPmean$GPMean, decreasing = TRUE),][1:15,]
 
+#Q6C
+#Output HDI table in CSV format into the data directory. 
+write.csv(sortedGP, file = paste(My_FilePath,"/Data/Top15MostProcrastinatingCountries_GPMean.csv",sep = ""),row.names=FALSE)
 
 ggplot(data=sortedGP, aes(x= reorder(Country, -GPMean), y = GPMean, fill = HDI_Category)) + 
   geom_bar(stat = "identity") + 
@@ -490,8 +499,14 @@ ggplot(data=sortedGP, aes(x= reorder(Country, -GPMean), y = GPMean, fill = HDI_C
 
 
 #Q5C Barchart
-countryDPmean = aggregate(DPMean ~ Country + HDI_Category, Procrastination, mean)
+countryDPmean = aggregate(DPMean ~ Country + HDI_Category +`2016_Est_HDI`, Procrastination, mean)
 sortedDP = countryDPmean[order(countryDPmean$DPMean, decreasing = TRUE),][1:15,]
+
+
+#Q6C
+#Output HDI table in CSV format into the data directory. 
+write.csv(sortedDP, file = paste(My_FilePath,"/Data/Top15MostProcrastinatingCountries_DPMean.csv",sep = ""),row.names=FALSE)
+
 
 ggplot(data=sortedDP, aes(x= reorder(Country, -DPMean), y = DPMean, fill = HDI_Category)) + 
   geom_bar(stat = "identity") + 
@@ -506,6 +521,8 @@ ggplot(data=sortedDP, aes(x= reorder(Country, -DPMean), y = DPMean, fill = HDI_C
 inBoth = sqldf('SELECT Country FROM sortedDP INTERSECT SELECT Country from sortedGP')
 paste0("There are ", count(inBoth), " countries that show up in the top 15 countries for GP and DP Score. They are:")
 inBoth
+
+
 
 ############################# World Mapping ###########################
 ######## Glocal HDI Chart ########

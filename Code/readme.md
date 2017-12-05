@@ -31,8 +31,8 @@ Running under: Windows 7 x64 (build 7601) Service Pack 1
 * **Descriptive_Table** - Places the "Annual.Income", "Age", "2016_Est_HDI", "DPMean", "GPMean", "AIPMean", and "SWLSPMean" variables through the descriptive report function and binds them together into one data frame. 
 
 * **dfHDI** - A data frame that lists all countries, their associated HDI score, and HDI category
-* frequency_Table
-* GenderTable
+* frequency_Table -A data frame to store the count of a participants by designated variable 
+* GenderTable -Stores the frequency_Table output for the gender variable. 
 * hdi_ls_mean
 * **inBoth** - A list that contains the countries that were in both the top 15 GP and DP scores.
 * income_age_data
@@ -41,15 +41,15 @@ Running under: Windows 7 x64 (build 7601) Service Pack 1
 * ls_hdi_data
 * ls_hdi_model
 * ls_hdi_model2
-* Occupation_Table
-* ParticipantTable
+* Occupation_Table - Stores the frequency_Table output for the Occupation variable.
+* ParticipantTable - Stores the frequency_Table output for the Participant variable.
 * **Procrastination** - The primary data frame used for this analysis. It contains HDI data and survey results.
 * **server** - Function that will manipulate the table based on the input from the slider bar. Used for shiny.
 * survey_means
 * **table1 to table8** - these are tables as they are scrapped off of Wikipedia.
-* ui
+* ui - An ui object to store the application's layout.
 * **url** - Wikipedia url (https://en.Wikipedia.org/wiki/List_of_countries_by_Human_Development_Index)
-* WorkStatusTable
+* WorkStatusTable -Stores the frequency_Table output for the Participant variable
 
 
 ## Pulling Human Development Index Data from Wikipedia

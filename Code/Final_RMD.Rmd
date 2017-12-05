@@ -277,12 +277,13 @@ write.csv(Procrastination, file = paste(My_FilePath,"/Data/Clean_Procrastination
 
 
 ```{r}
+#4a
 ##Removes all individuals under the age of 18 due to legality of none consenting adult. 
 Procrastination <- Procrastination[which(Procrastination$Age > 18),]
 ```
 
 # Descriptive statistics 
-Below is the descriptive statistics of the data. The descriptive statistics describe the basic features of the data. 
+Below is the descriptive statistics of the data. The descriptive statistics describe the basic features of the data. A function has been created for WDC convince. In the future WDC may see the need to have descriptive statistics on other variables. The descriptive report function can take any variable inputted into and out the median, min, max, mean, standard deviation, and range. 
 
 
 ```{r}
@@ -327,7 +328,9 @@ Descriptive_Table<-{cbind(Descriptive_Table,rbind(
   Descriptive_report(Procrastination$SWLSPMean)))}
 ```
 
+###Histograms
 
+Histograms are a useful tool to understand the shape of your data to get an idea if any transformation/ assumption are needed for the analyses. 
 
 The histogram of age for participants shows that age is not a normal distribution. Age is skewed to the right. 	
 
@@ -350,8 +353,7 @@ hist(Procrastination$GPMean,
 Participants that did not report where excluded from the descriptive statistics calculation.
 
 
-```{r} 
-
+```{r}
 
 ####################
 #This code block counts the frequency by country, occupation, gender, and work status 

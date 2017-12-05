@@ -17,35 +17,39 @@ rworldmap
 ## Session Info
 
 **Analyst 1** 
+
 R version 3.4.2 (2017-09-28)
+
 Platform: x86_64-w64-mingw32/x64 (64-bit)
+
 Running under: Windows 7 x64 (build 7601) Service Pack 1
 
 ## List of All Objects Utilized in this dataset (not including helper objects) and a brief description
-**countryDPmean** - Country, HDI_Category, 2016 Estimated HDI, DP mean score
-**countryGPmean** - Country, HDI_Category, 2016 Estimated HDI, GP mean score
-**CountryTable** - Country and the number of participants in the survey
-**Descriptive_Table** - Places the "Annual.Income", "Age", "2016_Est_HDI", "DPMean", "GPMean", "AIPMean", and                          "SWLSPMean" variables through the descriptive report function and binds them together                          into one data frame.
-**dfHDI** - A data frame that lists all countries, their associated HDI score, and HDI category
-frequency_Table
-GenderTable
-hdi_ls_mean
-**inBoth** - A list that contains the countries that were in both the top 15 GP and DP scores.
-income_age_data
-income_age_model
-income_age_model2
-ls_hdi_data
-ls_hdi_model
-ls_hdi_model2
-Occupation_Table
-ParticipantTable
-**Procrastination** - The primary data frame used for this analysis. It contains HDI data and survey results.
-**server** - Function that will manipulate the table based on the input from the slider bar. Used for shiny.
-survey_means
-**table1 to table8** - these are tables as they are scrapped off of Wikipedia.
-ui
-**url** - Wikipedia url (https://en.Wikipedia.org/wiki/List_of_countries_by_Human_Development_Index)
-WorkStatusTable
+* **countryDPmean** - Country, HDI_Category, 2016 Estimated HDI, DP mean score
+* **countryGPmean** - Country, HDI_Category, 2016 Estimated HDI, GP mean score
+* **CountryTable** - Country and the number of participants in the survey
+* **Descriptive_Table** - Places the "Annual.Income", "Age", "2016_Est_HDI", "DPMean", "GPMean", "AIPMean", and "SWLSPMean" variables through the descriptive report function and binds them together into one data frame. 
+
+* **dfHDI** - A data frame that lists all countries, their associated HDI score, and HDI category
+* frequency_Table
+* GenderTable
+* hdi_ls_mean
+* **inBoth** - A list that contains the countries that were in both the top 15 GP and DP scores.
+* income_age_data
+* income_age_model
+* income_age_model2
+* ls_hdi_data
+* ls_hdi_model
+* ls_hdi_model2
+* Occupation_Table
+* ParticipantTable
+* **Procrastination** - The primary data frame used for this analysis. It contains HDI data and survey results.
+* **server** - Function that will manipulate the table based on the input from the slider bar. Used for shiny.
+* survey_means
+* **table1 to table8** - these are tables as they are scrapped off of Wikipedia.
+* ui
+* **url** - Wikipedia url (https://en.Wikipedia.org/wiki/List_of_countries_by_Human_Development_Index)
+* WorkStatusTable
 
 
 ## Pulling Human Development Index Data from Wikipedia

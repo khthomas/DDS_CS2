@@ -210,7 +210,6 @@ Procrastination$SWLSPMean<-round(rowMeans(Procrastination[55:59],na.rm = TRUE),1
 ```
 
 
-# Question 3: Scrape the Human Development Index (I have added some context to the question to make is seem more like a client request)
 Waterfront Data Corp (WDC) is a multinational corporation with offices in countries that are in various stages of development. Knowing this, WDC has asked that the procrastination study take into consideration how developed each country is in which there is an office. 
 
 In order to facilitate this request, we have chosen to bring in Human Development Index (HDI) information for each country. The HDI is used to determine how developed a country is beyond simple economic growth and Gross Domestic Product parameters. Basically, the HDI can be thought of as "a summary measure of average achievement in key dimensions of human development". As such, we believe that HDI data may provide some very interesting insight on procrastination rates on a country by country basis. 
@@ -228,7 +227,7 @@ page = read_html(url)
 #   .[1] %>%
 #   rvest::html_table(fill = TRUE)
 
-#assing them in a loop
+#assign them in a loop
 for(i in 1:8) {
   assign(paste0("table", i), as.data.frame(page %>%
   rvest::html_nodes(xpath = "//td//table") %>%
@@ -239,6 +238,7 @@ for(i in 1:8) {
  
 }
 
+#change the column names so that the dataframes can be bound together
 colnames(table1) = c("2016_Est_Rank", "Rank_Change", "Country", "2016_Est_HDI", "HDI_Change")
 colnames(table2) = c("2016_Est_Rank", "Rank_Change", "Country", "2016_Est_HDI", "HDI_Change")
 colnames(table3) = c("2016_Est_Rank", "Rank_Change", "Country", "2016_Est_HDI", "HDI_Change")
@@ -252,6 +252,7 @@ dfHDI = rbind(table1[-1,], table2[-1,], table3[-1,], table4[-1,], table5[-1,], t
 
 dfHDI = dfHDI[,c("Country", "2016_Est_HDI")]
 
+# Add HDI category data
 dfHDI$HDI_Category = ifelse(dfHDI$`2016_Est_HDI` >= 0.8, "Very High",
                             ifelse(dfHDI$`2016_Est_HDI` >= 0.7, "High",
                                    ifelse(dfHDI$`2016_Est_HDI` >= 0.55, "Medium", "Low")))

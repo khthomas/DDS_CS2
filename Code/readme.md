@@ -35,17 +35,18 @@ Running under: Windows 7 x64 (build 7601) Service Pack 1
 * GenderTable -Stores the frequency_Table output for the gender variable. 
 * hdi_ls_mean
 * **inBoth** - A list that contains the countries that were in both the top 15 GP and DP scores.
-* income_age_data
-* income_age_model
-* income_age_model2
-* ls_hdi_data
-* ls_hdi_model
-* ls_hdi_model2
 * Occupation_Table - Stores the frequency_Table output for the Occupation variable.
 * ParticipantTable - Stores the frequency_Table output for the Participant variable.
 * **Procrastination** - The primary data frame used for this analysis. It contains HDI data and survey results.
 * **server** - Function that will manipulate the table based on the input from the slider bar. Used for shiny.
-* survey_means
+**income_age_data**- subset of Procrastination data set. Only includes age, gender, annual income and male indicator variables. This variable has a value of 1 if the participant is a male and 0 if they are not.
+**income_age_model**- regression model using age to predict annual income.
+**income_age_model2**- regression model using age and male indicator variable to predict annual income.
+**ls_hdi_data**- subset of Procrastination data set. Only includes 2016_HDI_est, gender, SWLSPMean, and male indicator variable.
+**ls_hdi_model**- regression model using life satisfaction (SWLSPMean) to predict HDI.
+**ls_hdi_model2**- regression model using life satisfaction and male indicator variable to predict HDI.
+**survery_means**- subset of Procrastination data set. Only includes DPMean, AIPMean, GPMean and SWLSPMean.
+
 * **table1 to table8** - these are tables as they are scrapped off of Wikipedia.
 * ui - An ui object to store the application's layout.
 * **url** - Wikipedia url (https://en.Wikipedia.org/wiki/List_of_countries_by_Human_Development_Index)

@@ -25,11 +25,17 @@ their associated HDI category, their 2016 estimated HDI score, and the mean GP v
 
 ## Description of Variables in Procrastination.csv
 **Country**- The country where the participant is from
+
 **Age**- The age of the participant
+
 **Gender**- The gender of the participant
+
 **Kids**- Whether the participant has children (Yes kids or no kids)
+
 **Edu**- The education level of the participant
+
 **WorkStatus**- The participant’s work status
+
 **AnnualIncome**- The participant’s annual income in US dollars
 **Occupation**- The participant’s occupation
 **TenureYears**- How many years the participant has held their current job

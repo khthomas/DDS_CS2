@@ -1,15 +1,13 @@
 ---
 title: "Case_Study_Two"
-author: "Matt Rega"
+author: "Matt Rega, Steven Hayden, and Kyle Thomas"
 date: "November 26, 2017"
 output: html_document
 runtime: shiny
 ---
 
 ```{r}
-
-
-#read in data set
+#Required Libraries
 library(readr)
 library(dplyr)
 library(stringi)
@@ -22,27 +20,24 @@ library(knitr)
 library(kableExtra)
 library(shiny)
 library(rworldmap)
-
-# install.packages("rworldmap")
-
-#setwd("~/SMU/DDS_CS2/Data")
-#df = read.csv("Procrastination.csv")
-#Procrastination = read.csv("Procrastination.csv")
-
-
 #################################################################
+
+
+
+
+#####Gets users Working directory and adds the file path to the data file####
 My_FilePath<-getwd()
 My_FilePath<-substring(My_FilePath,1,nchar(My_FilePath)-5)
 setwd(My_FilePath)
 Data_FilePath<-paste( My_FilePath ,"/Data/Procrastination.csv", sep = "")
-##################################################################
 
 
-#setwd("~/SMU/DDS_CS2/Data")
-#df = read.csv("Procrastination.csv"))
+
+
+#imports raw data from csv file from the above path
 Procrastination = read.csv(Data_FilePath)
-#Procrastination = read.csv("Procrastination.csv")
-# Procrastination <- read_csv("C:/Users/student/Desktop/Doing DS/Case_Study_2/Procrastination.csv")
+
+
 
 #Print number of rows and columns
 dimPro<-dim(Procrastination)
@@ -211,6 +206,9 @@ In order to facilitate this request, we have chosen to bring in Human Developmen
 2016 HDI data was gathered from the Human Development Report of the same year. Once the HDI ranking for each country was collected, this data was then merged with the procrastination data set. Then, all people under the age of 18 were removed from the data set at the request of WDC.
 
 ```{r q3}
+
+#The code below scrapes data from the tables on the wiki page in the URL below. 
+
 url = "https://en.wikipedia.org/wiki/List_of_countries_by_Human_Development_Index"
 
 page = read_html(url)

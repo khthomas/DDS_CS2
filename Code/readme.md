@@ -187,15 +187,18 @@ Uruguay | 3.66 | 3.93
 
 ## Frequently Asked Questions (FAQ)
 Q1: I cannot scrape the Wikipedia webpage.
+
 A1: Some people may have a bad installation of the selectr package. Please try re-installing this package (install.packages("selectr"))
 
 Q2: My column names are all messed up? What is happening?
+
 A2: We think this issue is due to different the different R Environments of the analysts. The difference comes from how the R environment treats spaces (" "). Try the following:
 ```{r}
  colnames(Procrastination) = gsub("\\.","", colnames(Procrastination))
 ```
 
 Q3: Column names are still nonsense. Anything else?
+
 A3: One last issue. Try running the following code instead of the code listed on lines 107-113:
 ```{r}
 for(i in 15:59)
@@ -204,6 +207,7 @@ ProColNames[i]<-substr(ProColNames[i],2,which(strsplit(ProColNames[i],"")[[1]] =
 }
 ```
 Q4: I have more Questions? Who can I talk to?
+
 A4: Please reach out to one of our analysts:
 * **Matt Rega** - mrega@smu.edu
 * **Steven Hayden** - skhayden@smu.edu

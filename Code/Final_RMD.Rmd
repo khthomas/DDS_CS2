@@ -29,10 +29,7 @@ library(rworldmap)
 #df = read.csv("Procrastination.csv")
 #Procrastination = read.csv("Procrastination.csv")
 
-#kyle 
-#I added the lines below anyone can run the RMD file without manually entering their file path into the code
-#let me know if this works for you
-#MatT can you test this out to see if it works on your machine?
+
 #################################################################
 My_FilePath<-getwd()
 My_FilePath<-substring(My_FilePath,1,nchar(My_FilePath)-5)
@@ -87,9 +84,6 @@ ProColNames[14]<-"Daughters"
 
 
 
-#all the scale questions 15-59
-## Kyle -- I get an error here. I don't think this gets used. When I run grep(")", ProColNames) I get zero results.
-##        may want to consider removing this section. 
 
 #original
 # for(i in 15:59)
@@ -329,7 +323,7 @@ Descriptive_Table<-{cbind(Descriptive_Table,rbind(
   Descriptive_report(Procrastination$SWLSPMean)))}
 ```
 
-###Histograms
+### Histograms
 
 Histograms are a useful tool to understand the shape of your data to get an idea if any transformation/ assumption are needed for the analyses. 
 
@@ -350,7 +344,7 @@ hist(Procrastination$GPMean,
 ```
 
 
-###Summary Statistics table and Frequency tables 
+### Summary Statistics table and Frequency tables 
 Participants that did not report where excluded from the descriptive statistics calculation.
 
 
@@ -477,8 +471,6 @@ shinyApp(ui=ui, server=server)
 ```
 
 
-# Question 5B and 5C
-
 WDC wanted to know which countries had the highest average General Procrastination and Decisional Procrastination score. The best way to show this data is with some bar charts. Below, there are two bar charts that depict this information. Scores are sorted form highest to lowest and the color of each bar is indicative of the HDI score of the respective country. Of the top 15 countries in each category, 9 of them appeared in both charts. The countries that appear in both charts are listed below.
 
 To provide more context for WDC, world maps were plotted and the HDI, Mean General Procrastination Score, and Mean Decisional Procrastination Score. All other countries are shown as grey. Finally, we have also plotted on the world map where the top 15 most procrastinating countries are located. What is interesting about this view is that there appears to be a clusering effect in Europe and the Middle East.
@@ -556,7 +548,7 @@ mapCountryData(dp15, nameColumnToPlot = "DPMean", colourPalette = "heat", mapReg
 ```
 
 
-#Relationship between Income and Age
+# Relationship between Income and Age
 ```{r}
 #Scatterplot
 
@@ -587,7 +579,7 @@ summary(income_age_model2)
 	This relationship is further supported by looking at a simple linear regression occasion using age to predict annual income. The coefficient for age is 1498.12 which means that for every one year increase in age a person's annual income is predicted to increase by $1,498.12. Again this is an increase which supports the positive linear correlation found using the correlation test.
 	If we add gender into the regression equation the coefficient for age drops to 1458.2. This means that for every one year increase in age a person's annual income is predicted to increase $1,458.2. The coefficient for the male indicator variable, this variable has a value of 1 if the observation is a male, is 15859. This means that if a male and female are the same age it is predicted that the male would have an annual income that is $15,859 higher than the female.  
 
-#Relationship between Life Satisfaction and Human Development Index
+# Relationship between Life Satisfaction and Human Development Index
 ```{r}
 #scatterplot life satisfaction vs hdi
 ggplot(Procrastination,aes(x=Procrastination$`2016_Est_HDI`,y=SWLSPMean,shape=Gender,color=Gender))+geom_point()+xlab("Human Development Rating")+ylab("Life Statisfaction Rating (1-5(Highest))")+ggtitle("Life Statisfaction vs Human Development Rating")+theme(plot.title = element_text(hjust=0.5))+scale_x_discrete(breaks=pretty(Procrastination$`2016_Est_HDI`,n=75))+coord_flip()
@@ -613,7 +605,7 @@ summary(ls_hdi_model2)
 	This again is supported by a linear regression model. First looking at only using the human development index to predict an observations predicted life satisfaction. The coefficient for HDI is 0.6855 which means for a 0.1 unit increase in HDI an observations life satisfaction only increases by 0.06855. We use 0.1 increase for HDI because it is measured on a scale from 0 to 1 so a 1 unit increase is extremely unlikely and a 0.1 unit increase is much more plausible. Life satisfaction is measured on a scale from 1 to 5 so a 0.06 unit increase is not nothing but it is not a large increase. This supports the correlation coefficient being very weak.
 	If we include gender in the regression equation, again with an indicator variable that equals 1 if the observation is a male, the coefficient for HDI drops to 0.51255 which means that now a 0.1 unit increase in HDI results in a predicted increase of 0.05 in life satisfaction. The coefficient for the male indicator variable is -0.235. This means that if a male and female lived in a country with the same HDI the male would have a life expectance 0.235 units lower than the female. This suggests that men are on average less satisfied than females.
 
-#Relationship between life satisfaction and hdi category
+# Relationship between life satisfaction and hdi category
 ```{r}
 #Create a barplot of life statisfaction and hid category
 hdi_ls_mean<-aggregate(Procrastination$SWLSPMean,list(Procrastination$HDI_Category),mean)
@@ -628,7 +620,7 @@ TukeyHSD(anova_model)
 ```
   Looking at the bar graph there does seem to be an increase in life satisfaction as the HDI category moves to a higher quality of life. However if an ANOVA test is run on the different groups this says the opposite. The ANOVA test has a p-value of 0.128 which means that the four groups do not have statistically significant different life satisfaction ratings. So while it does look like there is an increase in life satisfaction this increase is not statistically significant.
   
-#Correlation between the survery questions
+# Correlation between the survery questions
 ```{r}
 survery_means<-data.frame(Procrastination$DPMean,Procrastination$AIPMean,Procrastination$GPMean,Procrastination$SWLSPMean)
 names(survery_means)<-c("DP","AIP","GP","SWLSP")

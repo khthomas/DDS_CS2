@@ -2,7 +2,7 @@
 title: "Case_Study_Two"
 author: "Matt Rega"
 date: "November 26, 2017"
-output: html_document
+output: html_notebook
 runtime: shiny
 ---
 

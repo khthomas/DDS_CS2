@@ -44,19 +44,19 @@ Running under: Windows 7 x64 (build 7601) Service Pack 1
 
 * **server** - Function that will manipulate the table based on the input from the slider bar. Used for shiny.
 
-**income_age_data**- subset of Procrastination data set. Only includes age, gender, annual income and male indicator variables. This variable has a value of 1 if the participant is a male and 0 if they are not.
+* **income_age_data**- subset of Procrastination data set. Only includes age, gender, annual income and male indicator variables. This variable has a value of 1 if the participant is a male and 0 if they are not.
 
-**income_age_model**- regression model using age to predict annual income.
+* **income_age_model**- regression model using age to predict annual income.
 
-**income_age_model2**- regression model using age and male indicator variable to predict annual income.
+* **income_age_model2**- regression model using age and male indicator variable to predict annual income.
 
-**ls_hdi_data**- subset of Procrastination data set. Only includes 2016_HDI_est, gender, SWLSPMean, and male indicator variable.
+* **ls_hdi_data**- subset of Procrastination data set. Only includes 2016_HDI_est, gender, SWLSPMean, and male indicator variable.
 
-**ls_hdi_model**- regression model using life satisfaction (SWLSPMean) to predict HDI.
+* **ls_hdi_model**- regression model using life satisfaction (SWLSPMean) to predict HDI.
 
-**ls_hdi_model2**- regression model using life satisfaction and male indicator variable to predict HDI.
+* **ls_hdi_model2**- regression model using life satisfaction and male indicator variable to predict HDI.
 
-**survery_means**- subset of Procrastination data set. Only includes DPMean, AIPMean, GPMean and SWLSPMean.
+* **survery_means**- subset of Procrastination data set. Only includes DPMean, AIPMean, GPMean and SWLSPMean.
 
 * **table1 to table8** - these are tables as they are scrapped off of Wikipedia.
 * ui - An ui object to store the application's layout.

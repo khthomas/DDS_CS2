@@ -23,7 +23,7 @@ their associated HDI category, their 2016 estimated HDI score, and the mean DP v
 **Top15MostProcrastinatingCountries_GPMean.csv** - The top 15 countries with the highest mean General Procrastination (GP) Score, 
 their associated HDI category, their 2016 estimated HDI score, and the mean GP value.
 
-##Description of Variables in Procrastination.csv
+## Description of Variables in Procrastination.csv
 **Country**- The country where the participant is from
 **Age**- The age of the participant
 **Gender**- The gender of the participant
